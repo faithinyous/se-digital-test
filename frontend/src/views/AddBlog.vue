@@ -15,11 +15,25 @@
             </v-btn>
           </v-col>
           <v-col col="auto">
-            <v-btn disabled outlined small>
-              <v-icon small class="mr-2"> far fa-bell-slash </v-icon>
-              Publish
+            <v-btn
+              dark
+              small
+              @click="isShowPreview = !isShowPreview"
+              color="secondary"
+            >
+              <v-icon small class="mr-2" v-if="isShowPreview">
+                far fa-eye-slash
+              </v-icon>
+              <v-icon small class="mr-2" v-else> far fa-eye </v-icon>
+              Preview
             </v-btn>
           </v-col>
+          <!--          <v-col col="auto">-->
+          <!--            <v-btn disabled outlined small>-->
+          <!--              <v-icon small class="mr-2"> far fa-bell-slash </v-icon>-->
+          <!--              Publish-->
+          <!--            </v-btn>-->
+          <!--          </v-col>-->
         </v-row>
       </v-col>
     </v-row>
@@ -70,6 +84,23 @@
         </v-col>
       </v-row>
     </v-form>
+    <v-row class="justify-center" v-if="isShowPreview">
+      <BlogCard
+        :id="1"
+        :description="description"
+        :title="title"
+        :image-url="imageUrl"
+        :show-detail="showDetail"
+      />
+    </v-row>
+    <v-dialog v-model="isDialogShow">
+      <BlogDetail
+        :id="1"
+        :description="description"
+        :title="title"
+        :image-url="imageUrl"
+      />
+    </v-dialog>
     <v-alert type="success" class="alert-fixed" v-if="alertSuccess">
       Successfully created new Blog
     </v-alert>
@@ -87,17 +118,23 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import axios from "@/http";
+import BlogCard from "@/components/BlogCard.vue";
+import BlogDetail from "@/components/BlogDetail.vue";
 @Component({
-  components: {}
+  components: { BlogDetail, BlogCard }
 })
 export default class Home extends Vue {
+  isShowPreview = false;
+  isDialogShow = false;
   alertSuccess = false;
   alertWarning = false;
   alertError = false;
   title = "";
   description = "";
   imageUrl = "";
-
+  showDetail() {
+    this.isDialogShow = true;
+  }
   saveBlog() {
     if ((this.$refs.form as HTMLFormElement).validate()) {
       axios

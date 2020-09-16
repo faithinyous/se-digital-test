@@ -1,6 +1,6 @@
 <template>
-  <v-card max-width="350px" class="ma-2">
-    <v-img :src="imageUrl" max-width="350" max-height="250" />
+  <v-card width="350px" class="ma-2">
+    <v-img :src="imageUrl" width="350" height="250" />
     <v-card-text class="pb-1"> {{ getDate(created) }} </v-card-text>
     <v-card-title class="pt-0 ">
       <div class="one-line-text">

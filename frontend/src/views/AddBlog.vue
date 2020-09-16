@@ -70,6 +70,17 @@
         </v-col>
       </v-row>
     </v-form>
+    <v-alert type="success" class="alert-fixed" v-if="alertSuccess">
+      Successfully created new Blog
+    </v-alert>
+
+    <v-alert type="warning" class="alert-fixed " v-if="alertWarning">
+      Please check your data
+    </v-alert>
+
+    <v-alert type="error" class="alert-fixed" v-if="alertError">
+      Something went wrong please try again later
+    </v-alert>
   </div>
 </template>
 
@@ -80,6 +91,9 @@ import axios from "@/http";
   components: {}
 })
 export default class Home extends Vue {
+  alertSuccess = false;
+  alertWarning = false;
+  alertError = false;
   title = "";
   description = "";
   imageUrl = "";
@@ -96,13 +110,38 @@ export default class Home extends Vue {
               : this.imageUrl
         })
         .then(result => {
-          console.log(result);
+          this.alertSuccess = true;
+          setTimeout(() => {
+            this.alertSuccess = false;
+          }, 3000);
+          this.title = "";
+          this.description = "";
+          this.imageUrl = "";
+          (this.$refs.form as HTMLFormElement).reset();
         })
         .catch(err => {
+          this.alertError = true;
+          setTimeout(() => {
+            this.alertError = false;
+          }, 3000);
           console.log(err);
         });
+    } else {
+      this.alertWarning = true;
+      setTimeout(() => {
+        this.alertWarning = false;
+      }, 3000);
     }
   }
 }
 </script>
-<style></style>
+<style scoped>
+.alert-fixed {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  z-index: 9999;
+  border-radius: 0px;
+}
+</style>

@@ -16,7 +16,7 @@
     <v-card-actions>
       <v-row class="justify-end">
         <v-col class="shrink">
-          <v-btn text color="primary">
+          <v-btn text color="primary" @click="showDetail(id)">
             Continue Reading
             <v-icon class="ml-2"> fas fa-greater-than</v-icon></v-btn
           >
@@ -40,6 +40,8 @@ export default class BlogCard extends Vue {
   })
   readonly imageUrl!: string;
   @Prop({ type: Number, required: true }) readonly created!: number;
+  @Prop({ type: Function, required: true }) showDetail!: Function;
+
   getDate(date: number) {
     return moment(date).format("ll");
   }

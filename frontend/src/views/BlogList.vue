@@ -2,20 +2,43 @@
   <div class="about">
     <v-row>
       <v-col cols="auto" v-for="(data, i) in blogList" :key="i">
-        <BlogCard v-bind="data" />
+        <BlogCard v-bind="data" :showDetail="showDetail" />
       </v-col>
     </v-row>
+    <v-dialog v-model="isDialogShow">
+      <BlogDetail v-bind="blogSelected" />
+    </v-dialog>
   </div>
 </template>
-<script>
-import BlogCard from "@/components/BlogCard";
+<script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-
 import axios from "@/http";
+import BlogCard from "@/components/BlogCard";
+import _ from "lodash";
+import BlogDetail from "@/components/BlogDetail.vue";
+interface BlogDataInterface {
+  id: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  created: number;
+}
 @Component({
-  components: { BlogCard }
+  components: { BlogDetail, BlogCard }
 })
 export default class BlogList extends Vue {
+  isDialogShow = false;
+  blogSelected = {
+    id: "",
+    title: "",
+    description: "",
+    imageUrl: "",
+    created: 0
+  } as BlogDataInterface;
+  showDetail(id: string) {
+    this.blogSelected = _.filter(this.blogList, { id: id })[0];
+    this.isDialogShow = true;
+  }
   blogList = [
     // {
     //   id: "mROCcH2mKuPdyR57kbrG",
@@ -65,12 +88,12 @@ export default class BlogList extends Vue {
     //   description:
     //     "Boasting 12 different <b>categories</b>, various ratios, orientations, and the ability to show mixed sizes, Dummy Image Generator is a great find. Only caveat? You'll need to download the images, no hotlinking"
     // }
-  ];
+  ] as BlogDataInterface[];
   mounted() {
     axios
       .get("/blog")
       .then(res => {
-        this.blogList = res;
+        this.blogList = res.data;
       })
       .catch(err => {
         console.log(err);

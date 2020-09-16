@@ -7,14 +7,14 @@
     <v-row>
       <v-col cols="8"> New Post </v-col>
       <v-col cols="4">
-        <v-row>
+        <v-row class="justify-end">
           <v-col class="shrink pr-3">
             <v-btn color="primary" dark small @click="saveBlog">
               <v-icon small class="mr-2"> fas fa-save </v-icon>
               Save
             </v-btn>
           </v-col>
-          <v-col col="auto">
+          <v-col class="shrink">
             <v-btn
               dark
               small
@@ -49,19 +49,19 @@
                 solo
                 flat
                 :rules="[v => !!v || 'Title is required']"
-                class="pr-4"
+                class="pr-md-4"
                 v-model="title"
               />
             </v-col>
             <v-col cols="12 ">Description</v-col>
-            <v-col cols="12 pt-2">
+            <v-col cols="12 pt-2 ">
               <v-textarea
                 outlined
                 label="Enter Description"
                 solo
                 flat
                 :rules="[v => !!v || 'Description is required']"
-                class="pr-4"
+                class=" pr-md-4"
                 v-model="description"
               />
             </v-col>
@@ -77,7 +77,7 @@
               flat
               persistent-hint
               hint="Image Url"
-              class="pr-4"
+              class=""
               v-model="imageUrl"
             />
           </v-col>
@@ -86,19 +86,21 @@
     </v-form>
     <v-row class="justify-center" v-if="isShowPreview">
       <BlogCard
-        :id="1"
+        :id="'1'"
         :description="description"
         :title="title"
         :image-url="imageUrl"
         :show-detail="showDetail"
+        :created="new Date().getTime()"
       />
     </v-row>
     <v-dialog v-model="isDialogShow">
       <BlogDetail
-        :id="1"
+        :id="'1'"
         :description="description"
         :title="title"
         :image-url="imageUrl"
+        :created="new Date().getTime()"
       />
     </v-dialog>
     <v-alert type="success" class="alert-fixed" v-if="alertSuccess">

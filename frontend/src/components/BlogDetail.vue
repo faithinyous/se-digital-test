@@ -7,15 +7,17 @@
       @hide="showImage = false"
       :visible="showImage"
     />
-    <v-row>
-      <v-img
-        style="cursor:pointer"
-        :src="imageUrl"
-        max-width="350"
-        max-height="250"
-        @click="showImage = true"
-      />
-      <v-col>
+    <v-row class="justify-center">
+      <v-col class="shrink">
+        <v-img
+          style="cursor:pointer"
+          :src="imageUrl"
+          max-width="350"
+          max-height="250"
+          @click="showImage = true"
+        />
+      </v-col>
+      <v-col class="extends" style="min-width:250px">
         <v-card-text class="pb-1"> {{ getDate(created) }} </v-card-text>
         <v-card-title class="pt-0  text-h3">
           <div class="">

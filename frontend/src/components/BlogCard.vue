@@ -9,7 +9,7 @@
     </v-card-title>
     <v-card-title class="pt-0">
       <div class="one-line-text">
-        {{ description }}
+        <span v-html="description"></span>
       </div>
     </v-card-title>
 

@@ -1,6 +1,6 @@
 <template>
   <v-card width="350px" class="ma-2">
-    <v-img :src="imageUrl" width="350" height="250" />
+    <v-img :src="imageShow" width="350" height="250" />
     <v-card-text class="pb-1"> {{ getDate(created) }} </v-card-text>
     <v-card-title class="pt-0 ">
       <div class="one-line-text">
@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
+import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import moment from "moment";
 @Component
 export default class BlogCard extends Vue {
@@ -42,6 +42,16 @@ export default class BlogCard extends Vue {
   @Prop({ type: Number, required: true }) readonly created!: number;
   @Prop({ type: Function, required: true }) showDetail!: Function;
 
+  imageShow = "";
+  @Watch("imageUrl")
+  imageChange() {
+    if (this.imageUrl !== "") {
+      this.imageShow = this.imageUrl;
+    } else {
+      this.imageShow =
+        "https://www.imagemet.com/wp-content/uploads/2016/12/text-1.png";
+    }
+  }
   getDate(date: number) {
     return moment(date).format("ll");
   }

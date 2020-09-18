@@ -1,10 +1,17 @@
 const fs = require("fs");
 module.exports = {
   devServer: {
-    disableHostCheck: true
+    // disableHostCheck: true,
+    proxy: {
+      "/api": {
+        target: "https://us-central1-erx-frontend-test.cloudfunctions.net",
+        pathRewrite: { "^/api": "" },
+        changeOrigin: true,
+        secure: false
+      }
+    }
   },
   chainWebpack: config => {
-
     //Vuetify:
     [("vue-modules", "vue", "normal-modules", "normal")].forEach(match => {
       config.module
@@ -16,9 +23,7 @@ module.exports = {
         );
     });
     // const svgRule = config.module.rule("svg");
-    //
     // svgRule.uses.clear();
-    //
     // svgRule.use("vue-svg-loader").loader("vue-svg-loader");
   },
   pluginOptions: {

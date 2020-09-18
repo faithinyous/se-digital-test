@@ -5,8 +5,10 @@ axios.defaults.timeout = 60000;
 axios.defaults.withCredentials = true;
 // The baseURL is set using the environment variable that would automatically replace to the actual server.
 // When development, using the relative url like "/login" would pointing to "VUE_APP_SERVER_LOCATION/login"
-axios.defaults.baseURL = process.env.VUE_APP_SERVER_LOCATION;
-
+axios.defaults.baseURL =
+  process.env.NODE_ENV === "production"
+    ? process.env.VUE_APP_SERVER_LOCATION
+    : process.env.VUE_APP_DEV_SERVER_LOCATION;
 axios.interceptors.request.use(
   config => {
     return config;
